@@ -163,39 +163,82 @@ def run(
 
                 # valid.get()
                 # absen
-                namesDatalist = []
+                
 
-                def markAttendance(nama):
+                def pulang(nama,c):
                     # with open("absen.csv", 'r+') as fx:
-                    db = mysql.connector.connect(host="localhost", user="root",
-                                                 passwd="nocturboy", database="absen")
+                    db = mysql.connector.connect(host="localhost", user="xd",
+                                                 passwd="Linux@44", database="absen")
                     cursor = db.cursor()
-                    cursor.execute("select nama from mhs")
+                    cursor.execute("select id_absen from pulang")
                     namesDatalist = []
-                    databasess = cursor.fetchall()
+                    nnama = []
+
+
+                    databasess = cursor.fetchall()  
                     for databases in databasess:
-                        for database in databases:
-                            namesDatalist.append(database)
-                    # namesDatalist = fx.readlines()
+                        namesDatalist.append(str(databases[0]))
+                        print(f"ini database-{databases}")
+                        
+
                     namelist = []
-                    for line in namesDatalist:
-                        entry = line.split(',')
-                        namelist.append(entry[0])
-                        # print(line)
-                    if nama not in namelist:
+
+
+                    for a in namesDatalist:
+                        entryname = a.split(',')
+                        print(f"ini entryname-{entryname}")
+                        nnama.append(entryname[0])
+                        print(f"ini entryname[0]-{entryname[0]}")
+                        
+                    if str(c) not in nnama:
                         now = datetime.now()
                         dtString = now.strftime('%H:%M:%S')
+                        hadir = now.strftime('%H')
+                        tanggal = now.strftime('%d-%m-%y')
                         img_name = "foto/{}.png".format(nama)
                         cv2.imwrite(img_name, im0)
                         with open(img_name, "rb") as ff:
-                            photo = ff.read()
-                        if True:
-                            # cursor.execute("SELECT nama,waktu FROM mhs")
-                            sql = "INSERT INTO mhs (nama, waktu, foto) VALUES (%s,%s,%s)"
-                            val = (nama, dtString, photo)
+                            photo = ff.read()                            # cursor.execute("SELECT nama,waktu FROM mhs")
+                            sql = "INSERT INTO pulang (pulang, id_absen) VALUES (%s,%s)"
+                            val = (dtString, c)
+                            cursor.execute(sql, val)
+                            db.commit() 
+
+                def masukk(nama,c):
+                    # with open("absen.csv", 'r+') as fx:
+                    db = mysql.connector.connect(host="localhost", user="xd",
+                                                 passwd="Linux@44", database="absen")
+                    cursor = db.cursor()
+                    cursor.execute("select nama,waktu from masuk")
+                    namesDatalist = []
+                    nnama = []
+
+                    databasess = cursor.fetchall()  
+                    for databases in databasess:
+                        namesDatalist.append(databases[0])
+                       
+
+                    namelist = []
+
+                    for a in namesDatalist:
+                        entryname = a.split(',')
+                        nnama.append(entryname[0])
+
+                        
+                    if nama not in nnama:
+                        now = datetime.now()
+                        dtString = now.strftime('%H:%M:%S')
+                        hadir = now.strftime('%H')
+                        tanggal = now.strftime('%d-%m-%y')
+                        img_name = "foto/{}.png".format(nama)
+                        cv2.imwrite(img_name, im0)
+                        with open(img_name, "rb") as ff:
+                            photo = ff.read()                            # cursor.execute("SELECT nama,waktu FROM mhs")
+                            sql = "INSERT INTO masuk (nama, waktu, tanggal, foto, id_absen) VALUES (%s,%s,%s,%s,%s)"
+                            val = (nama, dtString, tanggal, photo, c)
                             cursor.execute(sql, val)
                             db.commit()
-                            os.remove(img_name)
+                            # os.remove(img_name)
                     # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
@@ -206,12 +249,20 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
+                        # print(f"ini c {c}")
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                        if True:
-                            if conf >= 0.5:
-                                nama = names[c]
-                                markAttendance(nama)
+                        if conf >= 0.3:
+                            masuk = '12:12:10'
+                            masuk = datetime.strptime(masuk, '%H:%M:%S')
+                            mulai = datetime.now()
+                            mulaijam = mulai.strftime('%H:%M:%S')
+                            mulaijam = datetime.strptime(mulaijam, '%H:%M:%S')
+                            nama = names[c]
+                            if mulaijam > masuk:
+                                masukk(nama,c)
+                            elif mulaijam < masuk:
+                                pulang(nama,c)
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
