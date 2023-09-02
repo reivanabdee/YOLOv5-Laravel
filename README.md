@@ -10,7 +10,7 @@ pip install -r requipments.txt
 ```
 
 ## Usage
-download semua file yang ada di branch main, web, db.Import semau db. Konfigurasi database di .env web & absen.py 
+download semua file yang ada di branch main, web, db. Import semua db. Konfigurasi database di .env web & absen.py 
 
 ```python
 python3 absen.py --source 0 --weights your.pt
