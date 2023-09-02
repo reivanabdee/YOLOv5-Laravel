@@ -15,8 +15,8 @@ download semua file yang ada di branch main, web, db.Import semau db. Konfiguras
 ```python
 python3 absen.py --source 0 --weights your.pt
 ```
-![hasil](hasil/Screenshot_2023-07-25_16-28-12.png)
 
+![hasilll](hasil/Screenshot_2023-07-25_16-28-12.png)
 ## output
 
 hasil keluaran deteksi terdapat pada web
