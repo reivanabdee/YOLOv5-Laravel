@@ -167,8 +167,8 @@ def run(
 
                 def pulang(nama,c):
                     # with open("absen.csv", 'r+') as fx:
-                    db = mysql.connector.connect(host="localhost", user="xd",
-                                                 passwd="Linux@44", database="absen")
+                    db = mysql.connector.connect(host="localhost", user="",
+                                                 passwd="", database="absen")
                     cursor = db.cursor()
                     cursor.execute("select id_absen from pulang")
                     namesDatalist = []
@@ -206,8 +206,8 @@ def run(
 
                 def masukk(nama,c):
                     # with open("absen.csv", 'r+') as fx:
-                    db = mysql.connector.connect(host="localhost", user="xd",
-                                                 passwd="Linux@44", database="absen")
+                    db = mysql.connector.connect(host="localhost", user="",
+                                                 passwd="", database="absen")
                     cursor = db.cursor()
                     cursor.execute("select nama,waktu from masuk")
                     namesDatalist = []
