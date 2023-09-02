@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Data extends Model
 {
@@ -13,8 +14,8 @@ class Data extends Model
 
     public $timestamp = 'false';    
 
-    public function Pulang()
+    public function pulang(): HasMany
     {
-        return $this->hasOne(Pulang::class);
+        return $this->hasMany(Pulang::class);
     }
 }

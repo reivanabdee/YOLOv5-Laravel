@@ -5,11 +5,9 @@
         </a>
         <hr class="sidebar-divider my-0">
         <ul class="navbar-nav text-light" id="accordionSidebar">
-            <li class="nav-item"><a class="nav-link" href="{{'home'}}"><i class="fas fa-tachometer-alt"></i>Kehadiran karyawan</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{'home'}}"><i class="fas fa-tachometer-alt"></i><span>Kehadiran karyawan</span></a></li>
             <li class="nav-item"></li>
-            <li class="nav-item"><a class="nav-link" href="{{'kehadiran'}}"><i class="fas fa-table"></i><span>Rekap Kehadiran</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="{{'login'}}"><i class="far fa-user-circle"></i>Logout</a></li>
-            <li class="nav-item"></li>
+            <li class="nav-item"><a class="nav-link" href="{{'kehadiran'}}"><i class="fas fa-table"></i><span>Laporan Kehadiran </span></a></li>
         </ul>
         <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
     </div>

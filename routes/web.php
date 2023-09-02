@@ -21,6 +21,11 @@ Route::get('/', function () {
 Route::get('/home',[DataController::class, 'index']);
 
 Route::get('/kehadiran',[DataController::class, 'coba']);
+Route::get('/print',[DataController::class, 'cetak']);
+// Route::get('/print',function() {
+//     return view('print');
+// }); 
+
     // Route::get('/kehadiran',[DataController::class, 'index'], function() {
     //     return view('kehadiran');
     // });

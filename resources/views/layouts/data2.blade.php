@@ -2,7 +2,7 @@
 <div id="link_wrapper">
     <div class="shadow-lg p-3 mb-5 bg-body rounded">
  	
-        <h3>Daftar Kehadiran Karyawan</h3>
+        <h3>Daftar22 Kehadiran Karyawan</h3>
         <table class="table table-hover">
             <thead>
                 <th>No</th>
