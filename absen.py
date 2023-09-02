@@ -53,7 +53,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 @torch.no_grad()
 def run(
-        weights=ROOT / 'best.pt',  # model.pt path(s)
+        weights=ROOT / 'last2.pt',  # model.pt path(s)
         source=ROOT / 'data/images',  # file/dir/URL/glob, 0 for webcam
         data=ROOT / 'data/coco128.yaml',  # dataset.yaml path
         imgsz=(640, 640),  # inference size (height, width)
@@ -140,7 +140,7 @@ def run(
             seen += 1
             if webcam:  # batch_size >= 1
                 p, im0, frame = path[i], im0s[i].copy(), dataset.count
-                print(f"ini p {p},ini im0 {im0},ini frame {frame}")
+                #print(f"ini p {p},ini im0 {im0},ini frame {frame}")
                 s += f'{i}: '
             else:
                 p, im0, frame = path, im0s.copy(), getattr(dataset, 'frame', 0)
@@ -178,7 +178,7 @@ def run(
                     databasess = cursor.fetchall()  
                     for databases in databasess:
                         namesDatalist.append(str(databases[0]))
-                        print(f"ini database-{databases}")
+                        #print(f"ini database-{databases}")
                         
 
                     namelist = []
@@ -186,9 +186,9 @@ def run(
 
                     for a in namesDatalist:
                         entryname = a.split(',')
-                        print(f"ini entryname-{entryname}")
+                        #print(f"ini entryname-{entryname}")
                         nnama.append(entryname[0])
-                        print(f"ini entryname[0]-{entryname[0]}")
+                        #print(f"ini entryname[0 ]-{entryname[0]}")
                         
                     if str(c) not in nnama:
                         now = datetime.now()
@@ -228,17 +228,17 @@ def run(
                     if nama not in nnama:
                         now = datetime.now()
                         dtString = now.strftime('%H:%M:%S')
-                        hadir = now.strftime('%H')
                         tanggal = now.strftime('%d-%m-%y')
                         img_name = "foto/{}.png".format(nama)
+                        keterangan = "hadir"
                         cv2.imwrite(img_name, im0)
                         with open(img_name, "rb") as ff:
                             photo = ff.read()                            # cursor.execute("SELECT nama,waktu FROM mhs")
-                            sql = "INSERT INTO masuk (nama, waktu, tanggal, foto, id_absen) VALUES (%s,%s,%s,%s,%s)"
-                            val = (nama, dtString, tanggal, photo, c)
+                            sql = "INSERT INTO masuk (nama, waktu, tanggal, foto, id_absen, keterangan) VALUES (%s,%s,%s,%s,%s,%s)"
+                            val = (nama, dtString, tanggal, photo, c, keterangan)
                             cursor.execute(sql, val)
                             db.commit()
-                            # os.remove(img_name)
+                            os.remove(img_name)
                     # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
@@ -252,16 +252,16 @@ def run(
                         # print(f"ini c {c}")
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                        if conf >= 0.3:
-                            masuk = '12:12:10'
+                        if conf >= 0.8:
+                            masuk = '10:00:10'
                             masuk = datetime.strptime(masuk, '%H:%M:%S')
                             mulai = datetime.now()
                             mulaijam = mulai.strftime('%H:%M:%S')
                             mulaijam = datetime.strptime(mulaijam, '%H:%M:%S')
                             nama = names[c]
-                            if mulaijam > masuk:
+                            if mulaijam < masuk:
                                 masukk(nama,c)
-                            elif mulaijam < masuk:
+                            elif mulaijam > masuk:
                                 pulang(nama,c)
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
@@ -272,7 +272,10 @@ def run(
             im0 = annotator.result()
             if view_img:
                 cv2.imshow(str(p), im0)
-                cv2.waitKey(1)  # 1 millisecond
+                if cv2.waitKey(1) & 0xFF ==ord('q'):
+                   LoadStreams.stop()
+                   break
+                     # cv2.waitKey(1)  # 1 millisecond
 
             # Save results (image with detections)
             if save_img:
