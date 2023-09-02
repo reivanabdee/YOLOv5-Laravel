@@ -20,7 +20,7 @@ python3 absen.py --source 0 --weights your.pt
 
 hasil keluaran deteksi terdapat pada web
 ![output](hasil/Screenshot_2023-09-02_14-48-58X.png)
-![output](hasil/Screenshot_2023-09-02_14-49-03X.png)
+![luaran](hasil/Screenshot_2023-09-02_14-49-03X.png)
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
